@@ -1,0 +1,66 @@
+<odoo>
+  <data>
+
+<!--stock picking basket page-->
+
+       <record id="view_picking_withcarrier_out_form_whatsapp_msg" model="ir.ui.view">
+        <field name="name">stock.picking.picking_withcarrier.whatsapp.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//notebook/page[5]" position="after">
+<!--                 <page string="Basket">-->
+<!--                     <field name="stock_basket_id">-->
+<!--                         <tree string="Basket" editable="bottom">-->
+<!--                             <field name="stock_basket_line_id"/>-->
+<!--                         </tree>-->
+<!--                     </field>-->
+<!--                 </page>-->
+                 <page string="Basket">
+                     <field name="basket_ids" widget="one2many_list" domain="[('status', '=', 'vacant')]"/>
+                 </page>
+            </xpath>
+        </field>
+       </record>
+
+
+
+       <record id="basket_setup_action_window_wizard_all" model="ir.ui.view">
+            <field name="name">basket.verification.form</field>
+            <field name="model">basket.verification</field>
+            <field name="arch" type="xml">
+
+
+                <form string="Basket Verification">
+                    <group>
+
+<!--                            <label for="name"/>-->
+                             <field name="name" domain="[('status', '=', 'occupy')]"/>
+
+<!--                         <field name="basket_ids"  domain="[('status', '=', 'occupy')]"/>-->
+                    </group>
+                    <footer>
+                         <button name="set_basket_free" string="Set Basket Free" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="basket_setup_action_window" model="ir.actions.act_window">
+            <field name="name">Basket Verification</field>
+            <field name="res_model">basket.verification</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+       <menuitem name="Basket Verification" id="basket_setup" sequence="15" action="basket_setup_action_window"/>
+
+        <menuitem action="basket_setup_action_window" id="basket_setup_submenu" parent="basket_setup" sequence="2"/>
+
+
+
+
+  </data>
+</odoo>

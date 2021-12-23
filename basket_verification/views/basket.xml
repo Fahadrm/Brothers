@@ -1,0 +1,50 @@
+<odoo>
+  <data>
+
+       <record model="ir.ui.view" id="stock_basket_tree">
+              <field name="name">stock_basket_tree</field>
+              <field name="model">stock.basket</field>
+              <field name="arch" type="xml">
+                  <tree>
+                      <field name="name" />
+                      <field name="status"/>
+                  </tree>
+              </field>
+          </record>
+
+
+
+          <record model="ir.ui.view" id="stock_basket_form">
+              <field name="name">stock_basket_form</field>
+              <field name="model">stock.basket</field>
+              <field name="arch" type="xml">
+                  <form>
+            <!--             <header>-->
+            <!--                    <field name="status" widget="statusbar" statusbar_visible="vacant,occupy"/>-->
+            <!--                </header>-->
+                      <sheet>
+                          <group>
+                              <field name="name" />
+                              <field name="status"/>
+                          </group>
+                      </sheet>
+                  </form>
+              </field>
+          </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="basket_action_window">
+      <field name="name">Basket</field>
+      <field name="res_model">stock.basket</field>
+      <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create Basket
+            </p>
+        </field>
+    </record>
+
+      <menuitem name="Basket" id="basket_submenu" parent="stock.menu_stock_config_settings" action="basket_action_window"/>
+
+  </data>
+</odoo>
