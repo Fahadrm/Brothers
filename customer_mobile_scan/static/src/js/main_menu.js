@@ -54,7 +54,7 @@ var CustomerMainMenu = AbstractAction.extend({
     },
 });
 
-core.action_registry.add('customer_barcode_main_menu', CustomerMainMenu);
+core.action_registry.add('seq_customer_main_menu', CustomerMainMenu);
 
 return {
     CustomerMainMenu: CustomerMainMenu,

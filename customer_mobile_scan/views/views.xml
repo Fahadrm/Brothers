@@ -4,7 +4,7 @@
 
        <record id="customer_barcode_action_main_menu" model="ir.actions.client">
         <field name="name">Customer Barcode</field>
-        <field name="tag">customer_barcode_main_menu</field>
+        <field name="tag">seq_customer_main_menu</field>
         <field name="target">fullscreen</field>
     </record>
 
