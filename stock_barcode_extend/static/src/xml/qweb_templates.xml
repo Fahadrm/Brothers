@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" inherit_id="stock_barcode.template" xml:space="preserve">
-<!--    <templates id="template" xml:space="preserve">-->
+<!--<templates id="template" inherit_id="stock_barcode.template" xml:space="preserve">-->
+    <templates id="template" xml:space="preserve">
     <t t-extend="stock_barcode_lines_template">
         <t t-jquery="div[class='o_barcode_line_details flex-grow-1 flex-column flex-nowrap']"
           t-operation="append">
+
+<!--            <t t-jquery="div.o_barcode_line_details.flex-grow-1.flex-column.flex-nowrap"-->
+<!--          t-operation="append">-->
 
             <div  class="">
                 <i class="fa fa-sitemap"/>

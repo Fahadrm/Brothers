@@ -1,4 +1,4 @@
-odoo.define('pos_restaurant_adyen.models', function (require) {
+odoo.define('stock_barcode_extend.models', function (require) {
     var models = require('point_of_sale.models');
 
     models.load_fields('stock.move.line', ['product_mrp','customer_locations','expiration_date']);
