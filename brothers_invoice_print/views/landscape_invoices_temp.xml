@@ -427,7 +427,7 @@
 
                                             <t t-set="lots" t-value="l.lots_grouped_by_quantity().items()" />
                                                 <t t-if="lots">
-                                                 S/N: <span t-esc="', '.join([x[0] for x in lots])" />
+                                                 <span t-esc="', '.join([x[0] for x in lots])"/>
                                             </t>
 <!--                                            <t t-if="not l.display_type and lots and l.product_id.tracking == 'lot'">-->
 <!--                                                <t t-foreach="lots" t-as="lot">-->
