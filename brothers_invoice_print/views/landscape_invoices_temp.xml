@@ -411,7 +411,7 @@
                                             <t t-esc="l_index+1"/>
                                         </td>
                                         <td class="en-font" style="line-height:1;padding:3px;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
-                                            <t t-esc="l.product_mrp.mrp"/>
+                                            <t t-esc="l.product_mrp.name"/>
                                         </td>
                                         <td class="en-font" style="line-height:1;padding:3px;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
                                             <span class="en-font" style="text-align:left;vertical-align:middle;">

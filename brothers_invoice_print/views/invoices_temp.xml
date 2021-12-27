@@ -409,7 +409,7 @@
                                         </td>
                                         <td class="en-font" style="padding:3px;line-height:1;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                             <t t-if="l.product_mrp">
-                                            <t t-esc="l.product_mrp.mrp"/>
+                                            <t t-esc="l.product_mrp.name"/>
                                             </t>
                                         </td>
                                         <td class="en-font" style="padding:3px;line-height:1;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
