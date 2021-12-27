@@ -9,7 +9,7 @@
         Long description of module's purpose
     """,
 
-    'author': "Loyal It Solutions PVT LTD",
+    'author': "Loyal IT Solutions Pvt Ltd",
     'website': "http://www.loyalitsolutions.com",
 
     # Categories can be used to filter modules in modules listing

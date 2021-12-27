@@ -3,6 +3,8 @@
     <t t-extend="stock_barcode_summary_template">
         <t t-jquery="div[class='o_barcode_line_details flex-grow-1 flex-column flex-nowrap']"
           t-operation="append">
+<!--            <t t-jquery="div.o_barcode_line_details.flex-grow-1.flex-column.flex-nowrap"-->
+<!--          t-operation="append">-->
 
             <div  class="">
                 <i class="fa fa-sitemap"/>

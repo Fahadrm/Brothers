@@ -12,7 +12,7 @@
                  <field name="sum_done_qty" invisible="1"/>
                  <field name="sum_uom_qty" invisible="1"/>
                   <field name="len_qty" invisible="1"/>
-                  <field name="basket_ids" widget="one2many_list" domain="[('status', '=', 'vacant')]"/>
+                  <field name="basket_ids" domain="[('status', '=', 'vacant')]"/>
              </xpath>
 
 <!--                 <br/>-->
