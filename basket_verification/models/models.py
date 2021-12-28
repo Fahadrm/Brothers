@@ -10,7 +10,7 @@ class StockBasket(models.Model):
     _description = 'Basket'
 
     name = fields.Char(string="Basket")
-
+    picking_id = fields.Many2one('stock.picking',string="Stock Picking")
     status = fields.Selection([
         ('vacant', 'Vacant'),
         ('occupy', 'Occupy'),
@@ -31,9 +31,17 @@ class StockBasket(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    @api.depends('basket_ids')
+    def _get_verification_done(self):
+        for res in self:
+            if len(res.basket_ids) ==0:
+                self.basket_verification_done = True
+            else:
+                self.basket_verification_done = False
     basket_ids = fields.Many2many(comodel_name="stock.basket",string="Basket")
+    # basket_ids = fields.One2many("stock.basket","picking_id",string="Basket")
     # stock_basket_id = fields.One2many("stock.basket.lines", "stock_basket_line_id", string="Basket")
-
+    basket_verification_done = fields.Boolean(string="Basket verification done",compute='_get_verification_done')
     def write(self, vals):
         res = super(StockPicking, self).write(vals)
         for change in self.basket_ids:
@@ -48,15 +56,12 @@ class StockPicking(models.Model):
         return res
 
     def set_basket(self,picking_id,basket=None):
-        print('am here',picking_id)
-        print('data========================',basket)
         basket_id = self.env['stock.basket'].search([('name','=',basket)])
         picking_id = self.env['stock.picking'].browse([picking_id])
         result = {'status':False,'result':'Something wrong with basket code'}
 
         if basket_id and picking_id:
             basket_alread_added = picking_id.basket_ids.filtered(lambda x: x.name == basket)
-            print('basket_alread_added',basket_alread_added)
             if basket_alread_added:
                 result = {'status':False,'result':'Basket already added to this picking'}
                 return result
@@ -64,15 +69,13 @@ class StockPicking(models.Model):
                 return {'status':False,'result':'Basket is already occupied.'}
 
             vals = {'name':basket,'status':'occupy'}
-            basket_id.write({'status':'occupy'})
-            write = picking_id.write({'basket_ids':[(4,basket_id.id)]})
-            print('write',write)
+            basket_id.write({'status':'occupy','picking_id':picking_id.id})
+            write = picking_id.write({'basket_ids':[(4,basket_id.id)],})
             result = {'status':True,'result':'Basket successfully added'}
             return result
 
         else:
             result = {'status':False,'result':'Something wrong with basket code'}
-            print('no basket found')
             return result
         return result
 # class StockBasketLines(models.Model):
