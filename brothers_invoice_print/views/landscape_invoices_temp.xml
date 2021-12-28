@@ -404,6 +404,7 @@
                                     <t t-set="free_amount" t-value="0" />
                                     <t t-set="taxable_amt" t-value="0" />
                                     <t t-set="net_amt" t-value="0" />
+                             <t t-set="round_off_amount" t-value="0" />
                                         <tr t-foreach="o.invoice_line_ids" t-as="l" style="line-height:1;padding:3px;">
                                          <t t-if="not l.display_type">
                                              <t t-if="not l.is_rounding_line">
@@ -427,7 +428,7 @@
 
                                             <t t-set="lots" t-value="l.lots_grouped_by_quantity().items()" />
                                                 <t t-if="lots">
-                                                 <span t-esc="', '.join([x[0] for x in lots])"/>
+                                                 <span t-esc="', '.join([x[0] for x in lots])" />
                                             </t>
 <!--                                            <t t-if="not l.display_type and lots and l.product_id.tracking == 'lot'">-->
 <!--                                                <t t-foreach="lots" t-as="lot">-->
@@ -517,6 +518,10 @@
                                     </span>
                                 </td>
                             </t>
+
+                                              <t t-if="l.is_rounding_line">
+                                                 <t t-set="round_off_amount" t-value="round_off_amount + l.price_total"/>
+                                            </t>
                          </tr>
                                      <tr style="text-align:center; font-weight:bold;padding:5px;">
                                         <td class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;"></td>
@@ -639,7 +644,9 @@
 
                                                 Round Off:
                                                  <t t-if="o.invoice_cash_rounding_id">
-                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>
+<!--                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>-->
+                                                      <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>
+
                                                 </t>
                                                 <t t-if="not o.invoice_cash_rounding_id">
                                                         0.00
