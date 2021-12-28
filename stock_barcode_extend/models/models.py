@@ -19,3 +19,16 @@ class StockPicking(models.Model):
         res.append('expiration_date')
         return res
 
+class StockMoveLine(models.Model):
+    _inherit = "stock.move.line"
+
+    @api.onchange('product_id', 'product_uom_id')
+    def _onchange_product_id(self):
+        res = super()._onchange_product_id()
+        if self.product_id:
+            self.customer_locations = self.product_id.product_location_ids.id
+        return res
+
+
+
+
