@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" inherit_id="stock_barcode.stock_barcode_summary_template" xml:space="preserve">
+
+  <t t-extend="stock_barcode_summary_template">
+    <t t-jquery="div[class='o_barcode_product_line d-flex justify-content-between align-items-center']"
+      t-operation="append">
+      <div class="basket_barcode d-flex" style="float:right;width:400px;margin-right:200px;">
+      <span>Basket </span>
+<!--        &#032;-->
+      <input type="text" class="o_field_char basket_barcode_input" style="width:100px"/>
+      <button class="btn btn-primary add_basket">Add</button>
+    </div>
+    </t>
+  </t>
+</templates>
