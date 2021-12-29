@@ -23,6 +23,7 @@ class SaleOrder(models.Model):
             price, rule_id = self.pricelist_id.with_context(product_context).get_product_price_rule(
                 line.product_id, line.product_uom_qty or 1.0, self.partner_id)
             pricelist_rule = self.env['product.pricelist.item'].browse(rule_id)
+            product=line.product_id
             if self.pricelist_id and self.partner_id and self.pricelist_id.item_ids.filtered(
                         lambda l: l.is_mrp == True):
                 if pricelist_rule:
