@@ -12,6 +12,7 @@
 
                     <field name="mrp" invisible="1"/>
                    <field name="product_mrp" domain="[('product_id', '=', product_id),('name','!=',0)]"/>
+                   <field name="customer_locations"/>
 
               </xpath>
           </field>

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools
+from odoo.exceptions import RedirectWarning, UserError, ValidationError
+
 
 class Pricelistitem(models.Model):
     _inherit = "product.pricelist.item"
@@ -26,6 +28,39 @@ class StockQuant(models.Model):
     product_mrp = fields.Many2one('stock.mrp.product.report', string='MRP', store=True)
     customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null')
 
+    # @api.model
+    # def _get_inventory_fields_create(self):
+    #     res = super(StockQuant, self)._get_inventory_fields_create()
+    #     res.append('product_mrp', 'customer_locations')
+    #     return res
+
+    # @api.model
+    # def _get_inventory_fields_create(self):
+    #     """ Returns a list of fields user can edit when he want to create a quant in `inventory_mode`.
+    #     """
+    #     res = super()._get_inventory_fields_create()
+    #     res += ['product_mrp', 'customer_locations']
+    #     return res
+    #
+    # @api.model
+    # def _get_inventory_fields_write(self):
+    #     """ Returns a list of fields user can edit when he want to edit a quant in `inventory_mode`.
+    #     """
+    #     res = super()._get_inventory_fields_write()
+    #     res += ['product_mrp', 'customer_locations']
+    #     return res
+    #
+    # @api.model
+    # def create(self, vals):
+    #     """ Override to handle the "inventory mode" and create a quant as
+    #     superuser the conditions are met.
+    #     """
+    #     res = super(StockQuant, self).create(vals)
+    #
+    #     # product_mrp = self.env['stock.mrp.product.report'].browse(vals['product_mrp'])
+    #     # customer_locations = self.env['location.code'].browse(vals['customer_locations'])
+    #
+    #     return res
 
 
 class StockMove(models.Model):

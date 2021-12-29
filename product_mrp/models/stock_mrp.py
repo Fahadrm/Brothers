@@ -13,6 +13,9 @@ class InventoryLine(models.Model):
 
     mrp = fields.Float(string='MRP', digits='Product Price', default=0.0)
 
+    customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null',related='product_id.product_location_ids',readonly=False,store=True)
+
+
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()

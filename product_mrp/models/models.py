@@ -9,7 +9,7 @@ class StockMoveLine(models.Model):
 
     sl_no = fields.Integer(string='Sl No.',store=True)
     product_mrp = fields.Many2one('stock.mrp.product.report', string='MRP', store=True,)
-    customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null')
+    customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null',related='product_id.product_location_ids',readonly=False,store=True)
 
     @api.model_create_multi
     def create(self, vals_list):
