@@ -80,7 +80,8 @@ class StockQuant(models.Model):
     @api.model
     def _get_inventory_fields_create(self):
         res = super(StockQuant, self)._get_inventory_fields_create()
-        res.append('product_mrp','customer_locations')
+        res.append('product_mrp')
+        res.append('customer_locations')
         return res
 
 
