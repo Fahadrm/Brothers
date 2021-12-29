@@ -8,16 +8,19 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
+          <field name="origin" position="after">
+            <field name="basket_verification_done"/>
+          </field>
              <xpath expr="//notebook/page[5]" position="after">
-<!--                 <page string="Basket">-->
-<!--                     <field name="stock_basket_id">-->
-<!--                         <tree string="Basket" editable="bottom">-->
-<!--                             <field name="stock_basket_line_id"/>-->
-<!--                         </tree>-->
-<!--                     </field>-->
-<!--                 </page>-->
                  <page string="Basket">
-                     <field name="basket_ids" widget="one2many_list" domain="[('status', '=', 'vacant')]"/>
+                     <field name="basket_ids" widget="one2many_list" domain="[('status', '=', 'vacant')]">
+                       <tree>
+                         <field name="id"/>
+                         <field name="name"/>
+                         <field name="status"/>
+                         <field name="picking_id"/>
+</tree>
+</field>
                  </page>
             </xpath>
         </field>
@@ -32,10 +35,16 @@
 
 
                 <form string="Basket Verification">
+                  <div class="oe_title">
+                    <h1>
+                    <field name="name" domain="[('status', '=', 'occupy')]" options="{'no_create': True , 'no_open': True}"/>
+                  </h1>
+                  </div>
                     <group>
 
 <!--                            <label for="name"/>-->
-                             <field name="name" domain="[('status', '=', 'occupy')]"/>
+                             <field name="picking_id" readonly="1"/>
+                             <field name="partner_id" readonly="1"/>
 
 <!--                         <field name="basket_ids"  domain="[('status', '=', 'occupy')]"/>-->
                     </group>
