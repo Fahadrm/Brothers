@@ -16,6 +16,12 @@ class InventoryLine(models.Model):
     customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null',related='product_id.product_location_ids',readonly=False,store=True)
 
 
+    @api.onchange('product_mrp','customer_locations')
+    def _onchange_prod_lotmrp(self):
+        for lot in self:
+            if lot.prod_lot_id:
+                lot.prod_lot_id.product_mrp = lot.product_mrp.id
+                lot.prod_lot_id.customer_locations = lot.customer_locations.id
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()

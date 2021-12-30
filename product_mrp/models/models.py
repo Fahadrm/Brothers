@@ -2,6 +2,8 @@
 from odoo import models, fields, api, _
 from odoo.osv import expression
 from odoo.exceptions import UserError
+from collections import Counter, defaultdict
+
 
 
 class StockMoveLine(models.Model):
@@ -10,6 +12,22 @@ class StockMoveLine(models.Model):
     sl_no = fields.Integer(string='Sl No.',store=True)
     product_mrp = fields.Many2one('stock.mrp.product.report', string='MRP', store=True,)
     customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null',related='product_id.product_location_ids',readonly=False,store=True)
+
+    @api.onchange('product_mrp', 'customer_locations')
+    def _onchange_prod_lot_mrp_move_line(self):
+        for lot in self:
+            if lot.lot_id:
+                lot.lot_id.product_mrp = lot.product_mrp.id
+                lot.lot_id.customer_locations = lot.customer_locations.id
+            if lot.lot_name:
+                lots=self.env['stock.production.lot'].search([('product_id','=',lot.product_id.id),('name','=',lot.lot_name)])
+                for i in lots:
+                    i.product_mrp = lot.product_mrp.id
+                    i.customer_locations = lot.customer_locations.id
+
+
+
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -105,5 +123,31 @@ class StockMoveLine(models.Model):
 
                     })
         return res
+
+
+    def _create_and_assign_production_lot(self):
+        """ Creates and assign new production lots for move lines."""
+        lot_vals = []
+        # It is possible to have multiple time the same lot to create & assign,
+        # so we handle the case with 2 dictionaries.
+        key_to_index = {}  # key to index of the lot
+        key_to_mls = defaultdict(lambda: self.env['stock.move.line'])  # key to all mls
+        for ml in self:
+            key = (ml.company_id.id, ml.product_id.id, ml.lot_name)
+            key_to_mls[key] |= ml
+            if ml.tracking != 'lot' or key not in key_to_index:
+                key_to_index[key] = len(lot_vals)
+                lot_vals.append({
+                    'company_id': ml.company_id.id,
+                    'name': ml.lot_name,
+                    'product_id': ml.product_id.id,
+                    'product_mrp': ml.product_mrp.id,
+                    'customer_locations':ml.customer_locations.id
+                })
+
+        lots = self.env['stock.production.lot'].create(lot_vals)
+        for key, mls in key_to_mls.items():
+            mls._assign_production_lot(lots[key_to_index[key]].with_prefetch(lots._ids))  # With prefetch to reconstruct the ones broke by accessing by index
+
 
 
