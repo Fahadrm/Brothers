@@ -46,8 +46,21 @@
                              <field name="picking_id" readonly="1"/>
                              <field name="partner_id" readonly="1"/>
 
-<!--                         <field name="basket_ids"  domain="[('status', '=', 'occupy')]"/>-->
                     </group>
+                    <notebook>
+                      <page name="detailed operations">
+                        <field name="move_line_ids_without_package" readonly="1">
+                          <tree>
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                            <field name="lot_id"/>
+                            <!-- <field name="product_mrp"/> -->
+                            <field name="qty_done"/>
+                            <field name="product_uom_id"/>
+                          </tree>
+                        </field>
+                      </page>
+                    </notebook>
                     <footer>
                          <button name="set_basket_free" string="Set Basket Free" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
@@ -64,9 +77,9 @@
             <field name="target">new</field>
         </record>
 
-       <menuitem name="Basket Verification" id="basket_setup" sequence="15" action="basket_setup_action_window"/>
+       <!-- <menuitem name="Basket Verification" id="basket_setup" sequence="15" action="basket_setup_action_window"/> -->
 
-        <menuitem action="basket_setup_action_window" id="basket_setup_submenu" parent="basket_setup" sequence="2"/>
+        <!-- <menuitem action="basket_setup_action_window" id="basket_setup_submenu" parent="basket_setup" sequence="2"/> -->
 
 
 
