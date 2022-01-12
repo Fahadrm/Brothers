@@ -16,7 +16,7 @@ class BasketVerification(models.TransientModel):
                 remove_basket = picking_id.write({'basket_ids':[(3,basket_id.id)]})
                 basket_id.write({'status': 'vacant',
                                     'picking_id':None})
-                result = {'status':True,'result':'Basket successfully unallocated.'}
+                result = {'status':True,'result':'Basket Successfully Verified & Unallocated.'}
             else:
                 result = {'status':False,'result':'Basket not found'}
         return result

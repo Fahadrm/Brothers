@@ -11,7 +11,13 @@
     </record>
 
 
-    <menuitem id="basket_verification_client_action_menu" name="Basket Verification11" parent=""
-                  action="basket_verification_client_action"/>
+
+          
+
+
+    <menuitem id="basket_verification_client_action_menu" name="Basket Verification"
+                  action="basket_verification_client_action"
+                  web_icon="mobile_basket_verification,static/src/images/shopping_icon.png"
+                  sequence="51"/>
   </data>
 </odoo>
