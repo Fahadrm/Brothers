@@ -9,12 +9,16 @@ class BasketVerification(models.TransientModel):
     name = fields.Many2one("stock.basket", string="Basket")
     picking_id = fields.Many2one('stock.picking',string='Picking')
     partner_id = fields.Many2one('res.partner',related="picking_id.partner_id", string='Customer')
+    move_line_ids_without_package = fields.Many2many('stock.move.line',string="Detailed Operations")
+
+
 
     @api.onchange('name')
     def onchange_name(self):
         for res in self:
             basket_id = self.env['stock.basket'].search([('name','=',res.name.id),('status','=','occupy')])
             res.picking_id = basket_id.picking_id.id
+            res.move_line_ids_without_package = basket_id.picking_id.move_line_ids_without_package.ids
 
     def set_basket_free(self):
         for baskets in self:

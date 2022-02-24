@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools
+from odoo.exceptions import RedirectWarning, UserError, ValidationError
+
 
 class Pricelistitem(models.Model):
     _inherit = "product.pricelist.item"
@@ -23,9 +25,39 @@ class ProductionLot(models.Model):
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
-    product_mrp = fields.Many2one('stock.mrp.product.report', string='MRP', store=True)
-    customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null')
+    product_mrp = fields.Many2one('stock.mrp.product.report', string='MRP', store=True,related='lot_id.product_mrp',readonly=False)
+    customer_locations = fields.Many2one('location.code', 'Locations', ondelete='set null',store=True,related='lot_id.customer_locations',readonly=False)
 
+
+    @api.model
+    def _get_inventory_fields_write(self):
+        """ Returns a list of fields user can edit when he want to edit a quant in `inventory_mode`.
+        """
+        res = super()._get_inventory_fields_write()
+        res.append('product_mrp')
+        res.append('customer_locations')
+        # res += ['product_mrp', 'customer_locations']
+        return res
+
+    def _gather(self, product_id, location_id, lot_id=None, package_id=None, owner_id=None, strict=False):
+        res = super(StockQuant, self)._gather(product_id, location_id, lot_id, package_id, owner_id, strict)
+        if lot_id:
+            res.update(
+                {
+                    'product_mrp': lot_id.product_mrp.id,
+                    'customer_locations': lot_id.customer_locations.id
+                }
+            )
+
+        return res
+
+    # @api.model
+    # def create(self, vals):
+    #     """ Override to handle the "inventory mode" and create a quant as
+    #     superuser the conditions are met.
+    #     """
+    #     res = super(StockQuant, self).create(vals)
+    #     return res
 
 
 class StockMove(models.Model):

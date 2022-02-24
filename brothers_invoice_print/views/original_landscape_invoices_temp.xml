@@ -467,10 +467,13 @@
 <!--                                                <t t-esc="l.price_unit"/>-->
                                         </td>
 
-                                         <td class="en-font" style="line-height:1;padding:3px;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
-<!--                                                <t t-if="l.discount">-->
-<!--                                                    <t t-esc="'{:,.2f}'.format(l.discount)"/>-->
-<!--                                                </t>-->
+                                         <td class="en-font" style="line-height:1;padding:3px;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
+                                                <t t-if="l.discount">
+                                        <t t-esc="'{:.2f}'.format(l.discount)"/>%
+                                    </t>
+                                    <t t-if="l.discount_amount">
+                                        <t t-esc="'{:.2f}'.format(l.discount_amount)"/>
+                                    </t>
                                          </td>
                                              <td class="en-font" style="line-height:1;padding:3px;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                                <t t-esc="'{:,.2f}'.format(l.price_subtotal)"/>
