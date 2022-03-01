@@ -28,9 +28,12 @@ class Accountmove(models.Model):
             dd.id as move_id,
 			dd.tax_id as tax_id,
             max(dd.tax_base_amount) as taxable,
+            max(dd.tax_value) as tax_value,
+
                -- dd.rate as rate,
                 sum(dd.credit) as amount
                 from (select m.id as id,at.name as tax_name,ml.tax_base_amount,at.id as tax_id,
+                at.amount as tax_value,
                       case when at.amount=1 and at.name !~~* 'IGST%%' then at.amount
                       when at.amount<>1 and at.name !~~* 'IGST%%' then at.amount
                             when at.name ~~* 'IGST%%' then at.amount end as rate,(ml.credit) as credit
@@ -59,12 +62,15 @@ class Accountmove(models.Model):
             sgst_tax_name = re.findall("\d+\.\d+", sgst_tax_name)[0] if sgst_tax_name else ''
             taxable = ans1['taxable'] if ans1['taxable'] else 0
             # rate = ans1['rate'] if ans1['rate'] else 0
+            tax_value = ans1['tax_value'] if ans1['tax_value'] else 0
+            taxvalue= str("{:.2f}".format(tax_value))
             amount = ans1['amount'] if ans1['amount'] else 0
 
             res = {
                 'move_id': move_id if move_id else 0,
                 'cgst_tax_name': cgst_tax_name +'%' if cgst_tax_name else '',
                 'sgst_tax_name': sgst_tax_name +'%' if sgst_tax_name else '',
+                'tax_name': tax_value if taxvalue else '',
                 'taxable': taxable if taxable else 0,
                 # 'rate': rate if rate else 0,
                 'amount': amount if amount else 0,

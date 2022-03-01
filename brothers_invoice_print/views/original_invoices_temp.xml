@@ -165,7 +165,19 @@
                      <div class="col-4" ></div>
                      <div class="col-4" style="ont-weight:bold;">
                         <div class="en-font"
-                             style="font-family: 'font-a-bold';float:center;text-align:center;text-decoration: underline; margin-top:-9px;font-size : 22px; font-weight: 900;text-weight:bold;"><b>Tax Invoice</b>
+                             style="font-family: 'font-a-bold';float:center;text-align:center;text-decoration: underline; margin-top:-9px;font-size : 22px; font-weight: 900;text-weight:bold;">
+                             <t t-if="'out_invoice' in o.move_type">
+                            <b>Tax Invoice</b>
+                             </t>
+                            <t t-if="'in_invoice' in o.move_type">
+                            <b>Tax Invoice</b>
+                             </t>
+                            <t t-if="'out_refund' in o.move_type">
+                            <b>Credit Note</b>
+                             </t>
+                            <t t-if="'in_refund' in o.move_type">
+                            <b>Debit Note</b>
+                             </t>
                         </div>
                      </div>
                     <div class="col-4" ></div>
@@ -383,13 +395,14 @@
                             <tr>
                                 <th class="en-font" width="5px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important; color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Sl</span></th>
                                 <th class="en-font" width="5px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">MRP</span></th>
-                                <th width="35px" class="en-font" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;vertical-align:middle;border:1px solid black;border-collapse:collapse;"><span class="en-font">Material Description</span></th>
+                                <th width="27px" class="en-font" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;vertical-align:middle;border:1px solid black;border-collapse:collapse;"><span class="en-font">Material Description</span></th>
                                 <th class="en-font" width="7px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">HSN</span></th>
 <!--                                <th width="7px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Batch</span></th>-->
 <!--                                <th width="8px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Exp</span></th>-->
                                 <th class="en-font" width="6px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Qty</span></th>
                                 <th class="en-font" width="6px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Free</span></th>
                                 <th class="en-font" width="8px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Rate</span></th>
+                                <th class="en-font" width="8px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Gross Amount</span></th>
                                 <th class="en-font" width="6px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Disc</span></th>
                                 <th class="en-font" width="8px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">Taxable</span></th>
                                 <th class="en-font" width="6px" style="vertical-align:middle;text-weight:bold;background-color:#0e98d9 !important;color:#fff !important;text-align:center;border:1px solid black;border-collapse:collapse;"><span class="en-font">GST %</span></th>
@@ -402,9 +415,11 @@
                                     <t t-set="free_amount" t-value="0" />
                                     <t t-set="taxable_amt" t-value="0" />
                                     <t t-set="net_amt" t-value="0" />
-                              <t t-set="round_off_amount" t-value="0" />
+                                  <t t-set="round_off_amount" t-value="0" />
+                                  <t t-set="gross_amount" t-value="0" />
+                                  <t t-set="order_line_discount" t-value="0" />
 
-                                        <tr t-foreach="o.invoice_line_ids" t-as="l" style="padding:3px;line-height:1;">
+                                        <tr t-foreach="o.invoice_line_ids" t-as="l" style="padding:3px;line-height:1;text-weight:bold;">
                                          <t t-if="not l.display_type">
                                              <t t-if="not l.is_rounding_line">
                                         <td class="en-font" style="padding:3px;line-height:1;text-align:center;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
@@ -412,13 +427,13 @@
                                         </td>
                                         <td class="en-font" style="padding:3px;line-height:1;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                             <t t-if="l.product_mrp">
-                                            <t t-esc="l.product_mrp.name"/>
+                                            <t t-esc="'{:.2f}'.format(l.product_mrp.name)"/>
                                             </t>
                                         </td>
-                                        <td class="en-font" style="padding:3px;line-height:1;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
-                                            <span class="en-font" style="text-align:left;vertical-align:middle;">
+                                        <td class="en-font" style="text-weight:bold;padding:3px;line-height:1;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
+                                            <b class="en-font" style="text-weight:bold;text-align:left;vertical-align:middle;">
                                                 <t t-esc="l.product_id.name"/>
-                                            </span>
+                                            </b>
                                         </td>
                                         <td class="en-font" style="padding:3px;line-height:1;text-align:center;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                             <span class="en-font" style="text-align:center;vertical-align:middle;">
@@ -444,13 +459,20 @@
                                                <t t-esc="'{:,.2f}'.format(l.price_unit)"/>
 <!--                                                <t t-esc="l.price_unit"/>-->
                                         </td>
+                                        <td class="en-font" style="padding:3px;line-height:1;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
+                                             <t t-esc="'{:,.2f}'.format(l.price_unit*l.quantity)"/>
+                                            <t t-set="gross_amount" t-value="gross_amount +(l.price_unit*l.quantity)"/>
+                                        </td>
+
 
                                          <td class="en-font" style="padding:3px;line-height:1;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                         <t t-if="l.discount">
-                                        <t t-esc="'{:.2f}'.format(l.discount)"/>%
-                                    </t>
+                                            <t t-esc="'{:.2f}'.format(l.discount)"/>%
+                                             <t t-set="order_line_discount" t-value="order_line_discount+l.discount"/>
+                                        </t>
                                     <t t-if="l.discount_amount">
                                         <t t-esc="'{:.2f}'.format(l.discount_amount)"/>
+                                         <t t-set="order_line_discount" t-value="order_line_discount+l.discount_amount"/>
                                     </t>
                                          </td>
                                              <td class="en-font" style="padding:3px;line-height:1;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
@@ -482,7 +504,7 @@
                                             <t t-esc="l_index+1"/>
                                         </td>
 
-                                        <td colspan="11" class="en-font" style="padding:3px;line-height:1;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
+                                        <td colspan="12" class="en-font" style="padding:3px;line-height:1;border:1px solid black;border-collapse:collapse;text-align:left;vertical-align:middle;">
                                                 <span class="en-font" style="text-align:left;vertical-align:middle;">
                                                     <span t-field="l.name"/>
                                                 </span>
@@ -495,7 +517,7 @@
                                 <td class="en-font" style="padding:3px;line-height:1;text-align:center;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                     <t t-esc="l_index+1"/>
                                 </td>
-                                <td colspan="11" class="en-font"  style="padding:3px;line-height:1;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
+                                <td colspan="12" class="en-font"  style="padding:3px;line-height:1;text-align:left;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                     <span class="en-font">
                                         <span t-field="l.name"/>
                                     </span>
@@ -525,7 +547,10 @@
                                         </td>
 
                                          <td class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;"></td>
-                                        <td class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;"></td>
+                                         <td class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;">
+                                            <t t-esc="'{:,.2f}'.format(gross_amount)"/>
+                                        </td>
+                                         <td class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;"></td>
                                         <td class="en-font" style="padding:5px;text-align:right;vertical-align:middle;border : 1px solid black;border-collapse:collapse;">
                                             <t t-esc="'{:,.2f}'.format(taxable_amt)"/>
                                         </td>
@@ -535,7 +560,7 @@
                                         </td>
                                     </tr>
                                     <tr style="padding:5px;">
-                                        <td class="en-font" colspan="5" style="padding:5px;text-align:center;vertical-align:middle;border : 1px solid black;border-collapse:collapse;">
+                                        <td class="en-font" colspan="6" style="padding:5px;text-align:center;border : 1px solid black;border-collapse:collapse;">
 
 
                                             <table border="0" style="font-size: 12px;" width="100%;" cellspacing="0" borderspacing="0">
@@ -547,11 +572,11 @@
                                 <thead>
 
                                     <tr style="padding:5px;text-align:center; font-weight:bold;line-height: 1;border:0;">
-                                        <th class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border:0;">SGST(%)</th>
-                                        <th class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border:0;">SGST</th>
-                                        <th class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border:0;">CGST(%)</th>
-                                        <th class="en-font" style="padding:5px;text-align:center;vertical-align:middle;border:0;">CGST</th>
-                                        <th class="en-font" style="padding:5px;text-align:right;vertical-align:middle;border:0;">Taxable amount</th>
+                                        <th class="en-font" style="padding:5px;text-align:center;border:0;">SGST(%)</th>
+                                        <th class="en-font" style="padding:5px;text-align:center;border:0;">SGST</th>
+                                        <th class="en-font" style="padding:5px;text-align:center;border:0;">CGST(%)</th>
+                                        <th class="en-font" style="padding:5px;text-align:center;border:0;">CGST</th>
+                                        <th class="en-font" style="padding:5px;text-align:right;border:0;">Taxable amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -560,7 +585,9 @@
 
                                         <td class="en-font" style="padding:2px;text-align:center;vertical-align:middle;line-height: 1;border:0;">
                                             <t t-if="m['sgst_tax_name']">
-                                                <t t-esc="m['sgst_tax_name']"/>
+<!--                                                <t t-esc="m['sgst_tax_name'].replace('SGST','')"/>-->
+                                                 <t t-set='name' t-value="m['sgst_tax_name'].replace('SGST','')"/>
+                                                <t t-esc="name.replace('Sale','')"/>
                                             </t>
                                         </td>
                                          <td class="en-font" style="padding:2px;text-align:center;vertical-align:middle;line-height: 1;border:0;">
@@ -572,7 +599,9 @@
                                          </td>
                                          <td class="en-font" style="padding:2px;text-align:center;vertical-align:middle;line-height: 1;border:0;">
                                          <t t-if="m['sgst_tax_name']">
-                                                <t t-esc="m['sgst_tax_name'].replace('SGST','CGST')"/>
+<!--                                                <t t-esc="m['sgst_tax_name'].replace('SGST','')"/>-->
+                                              <t t-set='name' t-value="m['sgst_tax_name'].replace('SGST','')"/>
+                                                <t t-esc="name.replace('Sale','')"/>
                                             </t>
 
                                          </td>
@@ -617,32 +646,233 @@
 
 
 
+                                            <td class="en-font" colspan="3" style="padding:5px;text-align:center;vertical-align:middle;">
 
-                                        <td class="en-font" colspan="3" style="padding:5px;text-align:center;vertical-align:middle;"></td>
+                                              <div class="row">
+                                                 <div class="col-7 text-left" style="text-align:left;">
+                                                     <b>  Special Discount</b><br/>
+                                                     <b> Gross Amount</b><br/>
+                                                     <b>Total Discount</b><br/>
+                                                     <b>  Scheme Amount</b><br/>
+<!--                                                     <b> Taxable Amount</b><br/>-->
+<!--                                                      <b> GST Amount</b><br/>-->
+<!--                                                     <b> Total</b><br/>-->
+<!--                                                     <b> Round Off</b><br/>-->
 
-                                         <td class="en-font" align="left" colspan="3" style="border-left:0;padding:5px;border-right: 1px solid black;border-top: 1px solid black;border-collapse:collapse;">
-                                            <b>
-                                                Special Discount :<span t-esc="'{:.2f}'.format(o.special_discount)"/><br/>
-                                                Company display (Amount): <br/>
 
-                                                Round Off:
-                                                 <t t-if="o.invoice_cash_rounding_id">
+
+                                                 </div>
+                                                  <div class="col-1">
+                                                       <b> :</b><br/>
+                                                     <b>:</b><br/>
+                                                     <b>:</b><br/>
+                                                     <b>  :</b><br/>
+<!--                                                     <b> :</b><br/>-->
+<!--                                                      <b> :</b><br/>-->
+<!--                                                     <b> :</b><br/>-->
+<!--                                                     <b>:</b><br/>-->
+
+                                                 </div>
+                                                  <div class="col-4 text-left" style="text-align:left;padding:3px;">
+                                                      <b>
+                                                            <t t-if="o.special_discount">
+                                                           <span t-esc="'{:.2f}'.format(order_line_discount)"/>
+                                                          </t>
+                                                           <t t-if="not o.special_discount">
+                                                           0.00
+                                                          </t>
+<!--                                                          <span t-esc="'{:.2f}'.format(o.special_discount)"/>-->
+
+                                                          <br/>
+                                                      <span t-esc="'{:.2f}'.format(gross_amount)"/><br/>
+                                                       <span t-esc="'{:.2f}'.format(order_line_discount)"/><br/>
+                                                      <span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/><br/>
+<!--                                                     <span t-esc="'{:.2f}'.format(taxable_amt)"/><br/>-->
+<!--                                                     <span t-esc="'{:.2f}'.format(o.amount_tax)"/><br/>-->
+<!--                                                       <span t-esc="'{:.2f}'.format(o.amount_total)"/><br/>-->
+<!--                                                      <t t-if="o.invoice_cash_rounding_id">-->
+<!--&lt;!&ndash;                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>&ndash;&gt;-->
+<!--                                                            <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>-->
+
+<!--                                                        </t>-->
+<!--                                                        <t t-if="not o.invoice_cash_rounding_id">-->
+<!--                                                            0.00-->
+<!--                                                        </t>-->
+
+                                                      </b>
+
+
+                                                 </div>
+
+                                             </div>
+
+                                        </td>
+
+                                         <td class="en-font" align="left" colspan="3" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;border-collapse:collapse;">
+                                             <div class="row">
+                                                 <div class="text-left col-7" style="text-align:left;">
+<!--                                                     <b>  Special Discount</b><br/>-->
+<!--                                                     <b> Gross Amount</b><br/>-->
+<!--                                                     <b>Total Discount</b><br/>-->
+<!--                                                     <b>  Scheme Amount</b><br/>-->
+                                                     <b> Taxable Amount</b><br/>
+                                                      <b> GST Amount</b><br/>
+                                                     <b> Total</b><br/>
+                                                     <b> Round Off</b><br/>
+
+
+
+                                                 </div>
+                                                  <div class="col-1">
+<!--                                                       <b> :</b><br/>-->
+<!--                                                     <b>:</b><br/>-->
+<!--                                                     <b>:</b><br/>-->
+<!--                                                     <b>  :</b><br/>-->
+                                                     <b> :</b><br/>
+                                                      <b> :</b><br/>
+                                                     <b> :</b><br/>
+                                                     <b>:</b><br/>
+
+                                                 </div>
+                                                  <div class="col-4 text-left" style="text-align:left;padding:3px;">
+                                                      <b>
+
+<!--                                                          <span t-esc="'{:.2f}'.format(o.special_discount)"/><br/>-->
+<!--                                                      <span t-esc="'{:.2f}'.format(gross_amount)"/><br/>-->
+<!--                                                       <span t-esc="'{:.2f}'.format(order_line_discount)"/><br/>-->
+<!--                                                      <span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/><br/>-->
+                                                     <span t-esc="'{:.2f}'.format(taxable_amt)"/><br/>
+                                                     <span t-esc="'{:.2f}'.format(o.amount_tax)"/><br/>
+                                                       <span t-esc="'{:.2f}'.format(o.amount_total)"/><br/>
+                                                      <t t-if="o.invoice_cash_rounding_id">
 <!--                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>-->
-                                                      <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>
+                                                            <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>
 
-                                                </t>
-                                                <t t-if="not o.invoice_cash_rounding_id">
-                                                        0.00
-                                                </t>
-<!--                                                <span t-esc="'{:.2f}'.format(o.amount_total)"/>-->
-                                              </b><br/>
+                                                        </t>
+                                                        <t t-if="not o.invoice_cash_rounding_id">
+                                                            0.00
+                                                        </t>
+
+                                                      </b>
+
+
+                                                 </div>
+
+                                             </div>
+<!--                                            <table height="10" class="table table-sm" style="font-size:13px;border: dotted grey;width:100%;line-height:1;" cellspacing="0" cellpadding="0">-->
+<!--                                                <col width="80%"></col>-->
+<!--                                                <col width="20%"></col>-->
+<!--                                                 <tr>-->
+<!--                                                    <td>-->
+<!--                                                        Special Discount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(o.special_discount)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        Gross Amount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(gross_amount)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        Total Discount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(order_line_discount)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        Scheme Amount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                                 <tr>-->
+<!--                                                    <td>-->
+<!--                                                       Taxable Amount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(taxable_amt)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                                 <tr>-->
+<!--                                                    <td>-->
+<!--                                                        GST Amount-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(o.amount_tax)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                                 <tr>-->
+<!--                                                    <td>-->
+<!--                                                        Total-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:<span t-esc="'{:.2f}'.format(o.amount_total)"/>-->
+
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                                 <tr>-->
+<!--                                                    <td>-->
+<!--                                                       Round Off-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <![CDATA[&nbsp;]]>:-->
+<!--                                                        <t t-if="o.invoice_cash_rounding_id">-->
+<!--&lt;!&ndash;                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>&ndash;&gt;-->
+<!--                                                            <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>-->
+
+<!--                                                        </t>-->
+<!--                                                        <t t-if="not o.invoice_cash_rounding_id">-->
+<!--                                                            0.00-->
+<!--                                                        </t>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+
+<!--                                            </table>-->
+
+
+
+<!--                                             <b>-->
+<!--                                                Special Discount :<span t-esc="'{:.2f}'.format(o.special_discount)"/><br/>-->
+<!--                                                Company display (Amount): <br/>-->
+
+<!--                                                Round Off:-->
+<!--                                                 <t t-if="o.invoice_cash_rounding_id">-->
+<!--&lt;!&ndash;                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>&ndash;&gt;-->
+<!--                                                     <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>-->
+
+<!--                                                 </t>-->
+<!--                                                <t t-if="not o.invoice_cash_rounding_id">-->
+<!--                                                        0.00-->
+<!--                                                </t>-->
+<!--&lt;!&ndash;                                                <span t-esc="'{:.2f}'.format(o.amount_total)"/>&ndash;&gt;-->
+<!--                                              </b><br/>-->
 
                                          </td>
 
                                     </tr>
                                      <tr align="left" style="font-weight:bold;padding:5px;font-size:13px;">
 
-                                         <td class="en-font" align="left" colspan="8" style="padding:5px;border-left: 1px solid black;border: 1px solid black;border-collapse:collapse;">
+                                         <td class="en-font" align="left" colspan="9" style="padding:5px;border-left: 1px solid black;border: 1px solid black;border-collapse:collapse;">
                                             <b> Total:
                                                 <t t-esc="o.currency_id.amount_to_text(o.amount_total)"/><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
                                                 Only
@@ -658,7 +888,7 @@
                                     </tr>
 
                              <tr style="font-weight:bold;padding:5px;font-size:13px;">
-                                 <td class="en-font" colspan="11" style="border:1px solid black;border-collapse:collapse;">
+                                 <td class="en-font" colspan="12" style="border:1px solid black;border-collapse:collapse;">
 <!--                                        <div class="row">-->
 <!--                    <div class="col-12">-->
                         <table border="0" width="100%;" cellspacing="0" borderspacing="0" style="font-size:12px;padding:3px;border:0;">
@@ -668,7 +898,7 @@
 <!--                            <col style="width: 25%;"/>-->
                         <tr>
 
-                            <td class="en-font" style="border:1px solid black;text-align:center;font-size:12px;text-weight:bold;padding:3px;">
+                            <td class="en-font" style="border:1px solid black;text-align:center;font-size:12px;text-weight:bold;padding:3px;vertical-align:middle;">
                                      <center>
                                          <img t-att-src="'data:image/png;base64,%s' % to_text(o.partner_id.qr)"
                                           style="height:80px;width:80px;"/>
@@ -719,7 +949,7 @@
 
 
                              <tr style="font-weight:bold;padding:5px;font-size:13px;">
-                                 <td class="en-font" colspan="11" style="border:1px solid black;border-collapse:collapse;">
+                                 <td class="en-font" colspan="12" style="border:1px solid black;border-collapse:collapse;">
                         <table border="0" width="100%;" cellspacing="0" borderspacing="0" style="font-size:12px;padding:3px;">
                         <col style="width: 33%;"/>
                              <col style="width: 34%;"/>
