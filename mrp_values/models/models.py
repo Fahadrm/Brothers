@@ -27,27 +27,28 @@ class ProductMasterInherit(models.Model):
         for war in self:
             string = ''
             product_id = self.env['product.product'].search([('product_tmpl_id', '=', war.id)])
-            product_stock_location = self.env['stock.mrp.product.report'].search([('product_id', '=', product_id[0].id)])
-            warehouse_names = []
-            if product_stock_location:
-                for n in product_stock_location:
-                    vals = {
-                    "mrp" : n.mrp if n.mrp else 0.00,
-                    "mrp_name" : n.name if n.name else " "
-                    }
-                    warehouse_names.append(vals)
-                    warehouse_names = sorted(warehouse_names, key=lambda k: k['mrp_name'])
-                if len(warehouse_names)>1:
-                    temp_string = warehouse_names[0]['mrp_name'] if warehouse_names[0]['mrp_name'] else 0
-                    temp_string = str(temp_string)
-                    string = string + '\n' + temp_string + ' ' + 'More'
-                elif len(warehouse_names)==1:
-                    temp_string = warehouse_names[0]['mrp_name'] if warehouse_names[0]['mrp_name'] else 0
-                    temp_string = str(temp_string)
-                    string = string + '\n' + temp_string
-                else:
-                    temp_string = " "
-                    string = string + '\n' + temp_string
+            if product_id:
+                product_stock_location = self.env['stock.mrp.product.report'].search([('product_id', '=', product_id[0].id)])
+                warehouse_names = []
+                if product_stock_location:
+                    for n in product_stock_location:
+                        vals = {
+                        "mrp" : n.mrp if n.mrp else 0.00,
+                        "mrp_name" : n.name if n.name else " "
+                        }
+                        warehouse_names.append(vals)
+                        warehouse_names = sorted(warehouse_names, key=lambda k: k['mrp_name'])
+                    if len(warehouse_names)>1:
+                        temp_string = warehouse_names[0]['mrp_name'] if warehouse_names[0]['mrp_name'] else 0
+                        temp_string = str(temp_string)
+                        string = string + '\n' + temp_string + ' ' + 'More'
+                    elif len(warehouse_names)==1:
+                        temp_string = warehouse_names[0]['mrp_name'] if warehouse_names[0]['mrp_name'] else 0
+                        temp_string = str(temp_string)
+                        string = string + '\n' + temp_string
+                    else:
+                        temp_string = " "
+                        string = string + '\n' + temp_string
             war.all_mrp = string
 
 
