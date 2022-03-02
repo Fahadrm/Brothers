@@ -37,5 +37,15 @@ class ProductTemplate(models.Model):
     product_mrp_ids = fields.One2many(related='product_variant_ids.product_mrp_ids',readonly=False)
 
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(ProductTemplate, self).create(vals_list)
+        for vals in vals_list:
+            if 'product_mrp_ids' in vals:
+                for val in vals['product_mrp_ids']:
+                    res.update({'product_mrp_ids': [(0, 0, {'name': val[2]['name']})]})
+        return res
+
+
 
 
