@@ -146,7 +146,7 @@
                                 Email:
                                 <span class="en-font" t-field="o.company_id.partner_id.email"/>
                                 <br/>
-                               VAT #
+                               GST No.
                                 <span class="en-font" t-field="o.company_id.partner_id.vat"/>
                                 <br/>
                     </div>
@@ -915,13 +915,18 @@
 
 
                             <td class="en-font" style="border:1px solid black;text-align:left;font-size:12px;text-weight:bold;padding:3px;">
-                                <b>Bank:<t t-esc="o.partner_bank_id.bank_id.name"/></b>
+                                <t t-if="o._get_Bank()">
+                                <t t-foreach="o._get_Bank()[0]" t-as="bk">
+
+                                <b>Bank:<t t-esc="bk.bank_id.name"/></b>
                                 <br/>
-                                <b>A/C No:<t t-esc="o.partner_bank_id.acc_number"/></b>
+                                <b>A/C No: <t t-esc="bk.acc_number"/></b>
                                  <br/>
-                                <b>Branch:<t t-esc="o.partner_bank_id.branch_name"/></b>
+                                <b>Branch:<t t-esc="bk.branch_name"/></b>
                                 <br/>
-                                <b>IFSC Code:<t t-esc="o.partner_bank_id.ifsc"/></b>
+                                <b>IFSC Code:<t t-esc="bk.ifsc"/></b>
+                                 </t>
+                                 </t>
                             </td>
                             <td class="en-font" style="border:1px solid black;text-align:left;font-size:12px;text-weight:bold;padding:3px;">
                            <table border="0" width="100%;" cellspacing="0" borderspacing="0" style="font-size:12px;padding:3px;width:100%;">

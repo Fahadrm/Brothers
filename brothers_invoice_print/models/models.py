@@ -81,6 +81,12 @@ class Accountmove(models.Model):
         else:
             return []
 
+    @api.model
+    def _get_Bank(self):
+        value1 = self.company_id if self.company_id else self.env.company
+        _Bankid = self.env['res.partner.bank'].search([('company_id', '=', value1.id),('partner_id', '=', value1.partner_id.id)])
+        return _Bankid
+
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
