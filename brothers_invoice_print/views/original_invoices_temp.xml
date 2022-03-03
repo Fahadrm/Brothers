@@ -2,9 +2,11 @@
 
 <odoo>
     <data>
-        <template id="original_brothers_invoice_template_document">
 
-                 <style type="text/css">
+
+                        <template id="original_brothers_invoice_template_header_my">
+
+            <style type="text/css">
                     .Row {
                     display: table;
                     width: 100%; /*Optional*/
@@ -116,14 +118,33 @@
                         }
                 </style>
                  <div class="pull-right en-font">Original</div>
-                <div class="row">
+                 <div class="text-center en-font"
+                             style="font-family: Impact, fantasy ;font-size : 22px; font-weight: 900;text-weight:bold;">
+                             <t t-if="'out_invoice' in o.move_type">
+                            <b>Tax Invoice</b>  <br/>
+                             </t>
+                            <t t-if="'in_invoice' in o.move_type">
+                            <b>Tax Invoice</b>  <br/>
+                             </t>
+                            <t t-if="'out_refund' in o.move_type">
+                            <b>Credit Note</b>  <br/>
+                             </t>
+                            <t t-if="'in_refund' in o.move_type">
+                            <b>Debit Note</b>  <br/>
+                             </t>
 
-                    <div class="col-9 text-left" style="font:12px lucida-console,sans-serif !important;">
+<!--                        </div>-->
 
-                        <b>
-                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:14px;"/>
+                </div>
+                  <div class="row">
+
+                    <div class="col-4 text-left" style="font-size:14px;text-weight:bold;font-weight:bold;">
+
+                        <b class="en-font">
+                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:16px;"/>
                         </b>
                         <br/>
+                        <b class="en-font" style="font-size:14px;">
                         <span class="en-font" t-field="o.company_id.partner_id.street" />
                         <br/>
                         <span class="en-font" t-field="o.company_id.partner_id.street2" />
@@ -139,9 +160,20 @@
                         </t>
                          <span class="en-font" t-field="o.company_id.partner_id.country_id" />
                                     <br/>
+                        </b>
+                    </div>
 
-                                Tel:
+                    <div class="col-6" style="font-size:14px;text-weight:bold;font-weight:bold;">
+
+                        <b class="en-font" style="font-size:14px;">
+                                <span class="en-font">Tel:
                                 <span class="en-font" t-field="o.company_id.partner_id.phone"/>
+                                <br/>
+                                Customer Care:
+                                <span class="en-font" t-field="o.company_id.customer_care"/>
+                                <br/>
+                                WhatsApp:
+                                <span class="en-font" t-field="o.company_id.whatsapp"/>
                                 <br/>
                                 Email:
                                 <span class="en-font" t-field="o.company_id.partner_id.email"/>
@@ -149,9 +181,17 @@
                                GST No.
                                 <span class="en-font" t-field="o.company_id.partner_id.vat"/>
                                 <br/>
-                    </div>
+                               FLic.
+                                <span class="en-font" t-field="o.company_id.company_registry"/>
+                                </span>
+                                <br/>
+                        </b>
 
-                    <div class="col-1"></div>
+
+
+
+
+                    </div>
                     <div class="col-2">
                          <img t-att-src="'/brothers_invoice_print/static/description/img/img.jpeg'" style="margin-left: auto;margin-right: auto;height:110px;width:100px;"/>
 
@@ -160,27 +200,6 @@
                     </div>
 
                     <br/>
-                </div>
-                <div class="row">
-                     <div class="col-4" ></div>
-                     <div class="col-4" style="ont-weight:bold;">
-                        <div class="en-font"
-                             style="font-family: 'font-a-bold';float:center;text-align:center;text-decoration: underline; margin-top:-9px;font-size : 22px; font-weight: 900;text-weight:bold;">
-                             <t t-if="'out_invoice' in o.move_type">
-                            <b>Tax Invoice</b>
-                             </t>
-                            <t t-if="'in_invoice' in o.move_type">
-                            <b>Tax Invoice</b>
-                             </t>
-                            <t t-if="'out_refund' in o.move_type">
-                            <b>Credit Note</b>
-                             </t>
-                            <t t-if="'in_refund' in o.move_type">
-                            <b>Debit Note</b>
-                             </t>
-                        </div>
-                     </div>
-                    <div class="col-4" ></div>
                 </div>
 
 
@@ -334,7 +353,19 @@
                     Page <span class="page"/> of <span class="topage"/>
                 </div>
             </div>
-            <t t-call="web.external_layout">
+        </template>
+
+          <template id="original_brothers_invoice_template_print_layout">
+            <div class="article">
+                <t t-call="brothers_invoice_print.original_brothers_invoice_template_header_my"/>
+                <t t-raw="0"/>
+            </div>
+        </template>
+        <template id="original_brothers_invoice_template_document">
+
+             <t t-call="brothers_invoice_print.original_brothers_invoice_template_print_layout">
+
+
                 <t t-set="o" t-value="o.with_context(lang=lang)"/>
                     <div class="page">
                          <style type="text/css">
@@ -870,20 +901,30 @@
                                          </td>
 
                                     </tr>
-                                     <tr align="left" style="font-weight:bold;padding:5px;font-size:13px;">
+                                     <tr align="left" style="font-weight:bold;padding:5px;font-size:15px;">
 
                                          <td class="en-font" align="left" colspan="9" style="padding:5px;border-left: 1px solid black;border: 1px solid black;border-collapse:collapse;">
                                             <b> Total:
-                                                <t t-esc="o.currency_id.amount_to_text(o.amount_total)"/><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
-                                                Only
+                                                <t t-esc="o.currency_id.amount_to_text(o.amount_total)"/> Only
                                               </b>
 
                                          </td>
 
-                                          <td class="en-font" align="left" colspan="3" style="padding:5px;border-right: 1px solid black;border: 1px solid black;border-collapse:collapse;">
-                                            <b>
-                                               Grand Total: <span t-esc="'{:,.2f}'.format(o.amount_total)"/>
-                                              </b>
+                                          <td class="en-font" align="left" colspan="3" style="font-size:16px;padding:5px;border-right: 1px solid black;border: 1px solid black;border-collapse:collapse;">
+                                           <div class="row">
+                                                 <div class="text-left col-7" style="text-align:left;">
+                                                     <b>Grand Total</b>
+                                                 </div>
+                                                  <div class="col-1">
+                                                     <b>:</b>
+                                                 </div>
+                                                  <div class="col-4" style="padding:1px;">
+                                                      <b>
+                                                      <span t-esc="'{:,.2f}'.format(o.amount_total)"/>
+                                                      </b>
+                                                 </div>
+
+                                             </div>
                                          </td>
                                     </tr>
 

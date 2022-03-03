@@ -2,7 +2,8 @@
 
 <odoo>
     <data>
-        <template id="duplicate_brothers_invoice_template_document">
+
+        <template id="duplicate_brothers_invoice_print_header_my">
 
                  <style type="text/css">
                     .Row {
@@ -118,14 +119,33 @@
 
 
                 <div class="pull-right en-font">Duplicate</div>
+                <div class="text-center en-font"
+                             style="font-family: Impact, fantasy ;font-size : 22px; font-weight: 900;text-weight:bold;">
+                             <t t-if="'out_invoice' in o.move_type">
+                            <b>Tax Invoice</b>  <br/>
+                             </t>
+                            <t t-if="'in_invoice' in o.move_type">
+                            <b>Tax Invoice</b>  <br/>
+                             </t>
+                            <t t-if="'out_refund' in o.move_type">
+                            <b>Credit Note</b>  <br/>
+                             </t>
+                            <t t-if="'in_refund' in o.move_type">
+                            <b>Debit Note</b>  <br/>
+                             </t>
+
+<!--                        </div>-->
+
+                </div>
                 <div class="row">
 
-                    <div class="col-9 text-left" style="font:12px lucida-console,sans-serif !important;">
+                    <div class="col-4 text-left" style="font-size:14px;text-weight:bold;font-weight:bold;">
 
-                        <b>
-                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:14px;"/>
+                        <b class="en-font">
+                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:16px;"/>
                         </b>
                         <br/>
+                        <b class="en-font" style="font-size:14px;">
                         <span class="en-font" t-field="o.company_id.partner_id.street" />
                         <br/>
                         <span class="en-font" t-field="o.company_id.partner_id.street2" />
@@ -141,9 +161,20 @@
                         </t>
                          <span class="en-font" t-field="o.company_id.partner_id.country_id" />
                                     <br/>
+                        </b>
+                    </div>
 
-                                Tel:
+                    <div class="col-6" style="font-size:14px;text-weight:bold;font-weight:bold;">
+
+                        <b class="en-font" style="font-size:14px;">
+                                <span class="en-font">Tel:
                                 <span class="en-font" t-field="o.company_id.partner_id.phone"/>
+                                <br/>
+                                Customer Care:
+                                <span class="en-font" t-field="o.company_id.customer_care"/>
+                                <br/>
+                                WhatsApp:
+                                <span class="en-font" t-field="o.company_id.whatsapp"/>
                                 <br/>
                                 Email:
                                 <span class="en-font" t-field="o.company_id.partner_id.email"/>
@@ -151,9 +182,17 @@
                                GST No.
                                 <span class="en-font" t-field="o.company_id.partner_id.vat"/>
                                 <br/>
-                    </div>
+                               FLic.
+                                <span class="en-font" t-field="o.company_id.company_registry"/>
+                                </span>
+                                <br/>
+                        </b>
 
-                    <div class="col-1"></div>
+
+
+
+
+                    </div>
                     <div class="col-2">
                          <img t-att-src="'/brothers_invoice_print/static/description/img/img.jpeg'" style="margin-left: auto;margin-right: auto;height:110px;width:100px;"/>
 
@@ -163,28 +202,6 @@
 
                     <br/>
                 </div>
-                <div class="row">
-                     <div class="col-4" ></div>
-                     <div class="col-4" style="ont-weight:bold;">
-                        <div class="en-font"
-                             style="font-family: 'font-a-bold';float:center;text-align:center;text-decoration: underline; margin-top:-9px;font-size : 22px; font-weight: 900;text-weight:bold;">
-                             <t t-if="'out_invoice' in o.move_type">
-                            <b>Tax Invoice</b>
-                             </t>
-                            <t t-if="'in_invoice' in o.move_type">
-                            <b>Tax Invoice</b>
-                             </t>
-                            <t t-if="'out_refund' in o.move_type">
-                            <b>Credit Note</b>
-                             </t>
-                            <t t-if="'in_refund' in o.move_type">
-                            <b>Debit Note</b>
-                             </t>
-                        </div>
-                     </div>
-                    <div class="col-4" ></div>
-                </div>
-
 
 
                 <div class="oe_structure"/>
@@ -336,7 +353,67 @@
                     Page <span class="page"/> of <span class="topage"/>
                 </div>
             </div>
-            <t t-call="web.external_layout">
+        </template>
+
+          <template id="duplicate_invoice_print_layout">
+            <div class="article">
+                <t t-call="brothers_invoice_print.duplicate_brothers_invoice_print_header_my"/>
+                <t t-raw="0"/>
+            </div>
+        </template>
+        <template id="duplicate_brothers_invoice_template_document">
+
+             <t t-call="brothers_invoice_print.duplicate_invoice_print_layout">
+                 <style type="text/css">
+                    .Row {
+                    display: table;
+                    width: 100%; /*Optional*/
+                    }
+
+                    @font-face {
+                    font-family: 'calibri';
+                    src: url('/brothers_invoice_print/static/src/fonts/calibri/Calibri.ttf') format('opentype');
+                    }
+
+                    @font-face {
+                    font-family: 'Times New Roman';
+                    src: local('Times New Roman'), local('Times New Roman'),
+                    url(/brothers_invoice_print/static/src/fonts/times_new_roman.ttf') format('ttf');
+                    }
+
+                    @font-face {
+                    font-family: 'Arial';
+                    src: local('Arial'), local('Arial'),
+                    url(/brothers_invoice_print/static/src/fonts/arial.ttf') format('truetype');
+                    }
+                    @font-face {
+                    font-family: 'Verdana';
+                    src: local('Verdana'), local('Verdana'),
+                    url(/brothers_invoice_print/static/src/fonts/verdana.ttf') format('ttf');
+                    }
+
+                    .arabic-font {
+                    font-family: arial;
+                    }
+
+                      .en-font {
+                            font-family: calibri;
+                            }
+
+<!--                    .en-font {-->
+<!--                    font-family: Verdana;-->
+<!--                    }-->
+
+                    th, td {
+                    padding: 3px;
+                    }
+                    tr{
+                        page-break-inside: avoid;
+                        }
+                </style>
+<!--            <t t-call="brothers_invoice_print.brothers_print_external_layout">-->
+                        <t t-if="not o" t-set="o" t-value="doc"/>
+
                 <t t-set="o" t-value="o.with_context(lang=lang)"/>
                     <div class="page">
                          <style type="text/css">
@@ -563,7 +640,7 @@
                                         </td>
                                     </tr>
                                     <tr style="padding:8px;">
-                                        <td class="en-font" colspan="3" style="padding:5px;text-align:center;border : 1px solid black;border-collapse:collapse;">
+                                        <td class="en-font" colspan="6" style="padding:5px;text-align:center;border : 1px solid black;border-collapse:collapse;">
 
 
                                             <table border="0" style="font-size: 12px;" width="100%;" cellspacing="0" borderspacing="0">
@@ -871,20 +948,31 @@
                                          </td>
 
                                     </tr>
-                                     <tr align="left" style="font-weight:bold;padding:5px;font-size:13px;">
+                                     <tr align="left" style="font-weight:bold;padding:5px;font-size:15px;">
 
                                          <td class="en-font" align="left" colspan="9" style="padding:5px;border-left: 1px solid black;border: 1px solid black;border-collapse:collapse;">
                                             <b> Total:
-                                                <t t-esc="o.currency_id.amount_to_text(o.amount_total)"/><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
-                                                Only
+                                                <t t-esc="o.currency_id.amount_to_text(o.amount_total)"/> Only
                                               </b>
 
                                          </td>
 
                                           <td class="en-font" align="left" colspan="3" style="font-size:16px;padding:5px;border-right: 1px solid black;border: 1px solid black;border-collapse:collapse;">
-                                            <b>
-                                               Grand Total: <span t-esc="'{:,.2f}'.format(o.amount_total)"/>
-                                              </b>
+
+                                                 <div class="row">
+                                                 <div class="text-left col-7" style="text-align:left;">
+                                                     <b>Grand Total</b>
+                                                 </div>
+                                                  <div class="col-1">
+                                                     <b>:</b>
+                                                 </div>
+                                                  <div class="col-4" style="padding:1px;">
+                                                      <b>
+                                                      <span t-esc="'{:,.2f}'.format(o.amount_total)"/>
+                                                      </b>
+                                                 </div>
+
+                                             </div>
                                          </td>
                                     </tr>
 
