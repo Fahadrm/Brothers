@@ -117,7 +117,7 @@
                  <div class="pull-right en-font">Duplicate</div>
 
                   <div class="text-center en-font"
-                             style="font-family: Impact, fantasy ;font-size : 22px; font-weight: 900;text-weight:bold;">
+                             style="font-family: Impact, fantasy ;margin-right:50px;font-size : 24px; font-weight: 900;text-weight:bold;">
                              <t t-if="'out_invoice' in o.move_type">
                             <b>Tax Invoice</b>  <br/>
                              </t>
@@ -139,7 +139,7 @@
                     <div class="col-4 text-left" style="font-size:14px;text-weight:bold;font-weight:bold;">
 
                         <b class="en-font">
-                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:16px;"/>
+                            <span class="en-font" t-field="o.company_id.partner_id" style="font-size:18px;"/>
                         </b>
                         <br/>
                         <b class="en-font" style="font-size:14px;">
@@ -163,30 +163,68 @@
 
                     <div class="col-6" style="font-size:14px;text-weight:bold;font-weight:bold;">
 
-                        <b class="en-font" style="font-size:14px;">
-                                <span class="en-font">Tel:
-                                <span class="en-font" t-field="o.company_id.partner_id.phone"/>
-                                <br/>
-                                Customer Care:
-                                <span class="en-font" t-field="o.company_id.customer_care"/>
-                                <br/>
-                                WhatsApp:
-                                <span class="en-font" t-field="o.company_id.whatsapp"/>
-                                <br/>
-                                Email:
-                                <span class="en-font" t-field="o.company_id.partner_id.email"/>
-                                <br/>
-                               GST No.
-                                <span class="en-font" t-field="o.company_id.partner_id.vat"/>
-                                <br/>
-                               FLic.
-                                <span class="en-font" t-field="o.company_id.company_registry"/>
-                                </span>
-                                <br/>
-                        </b>
+                      <table border="0" style="font-size: 14px;text-align:left" width="100%;" cellspacing="0" borderspacing="0">
+                                                <col style="width: 50%;"/>
+                                                <col style="width: 50%;"/>
 
 
+                                        <tr class="en-font" style="border:0;text-weight:bold;line-height:1">
+                                            <td></td>
+                                            <td align="left">
+                                                <b>
+                                            Customer Care:
+                                            <span class="en-font" t-field="o.company_id.customer_care"/>
+                                            </b>
+                                            </td>
 
+                                        </tr>
+                                        <tr class="en-font" style="border:0;text-align:left;line-height:1">
+                                            <td></td>
+                                            <td style="text-align:left">
+                                            <b>
+                                                WhatsApp:
+                                                <span class="en-font" t-field="o.company_id.whatsapp"/>
+                                            </b>
+                                            </td>
+                                        </tr>
+                                        <tr class="en-font" style="border:0;line-height:1">
+                                            <td></td>
+                                            <td>
+                                            <b>
+                                                Tel:
+                                                 <span class="en-font" t-field="o.company_id.partner_id.phone"/>
+                                            </b>
+                                            </td>
+                                        </tr>
+                                        <tr class="en-font" style="border:0;;line-height:1">
+                                            <td></td>
+                                            <td>
+                                            <b>
+                                                Email:
+                                                <span class="en-font" t-field="o.company_id.partner_id.email"/>
+                                            </b>
+                                            </td>
+                                        </tr>
+                                        <tr class="en-font" style="border:0;line-height:1">
+                                            <td></td>
+                                            <td>
+                                            <b>
+                                                 GST No.
+                                            <span class="en-font" t-field="o.company_id.partner_id.vat"/>
+                                            </b>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="en-font" style="border:0;line-height:1">
+                                            <td></td>
+                                            <td>
+                                            <b>
+                                                 FLic.
+                                            <span class="en-font" t-field="o.company_id.company_registry"/>
+                                            </b>
+                                            </td>
+                                        </tr>
+                          </table>
 
 
                     </div>
@@ -274,11 +312,15 @@
                                            <span t-field="o.partner_id.zip"/>,
                                         </t>
                                        <t t-if="o.partner_id.country_id.name">
-                                           <span t-field="o.partner_id.country_id.name"/><br/>
+                                           <span t-field="o.partner_id.country_id.name"/>
                                        </t>
+                                           <br/>
 
-                                       GSTIN:<t t-if="o.partner_id.vat">
-                                           <span t-field="o.partner_id.vat"/>
+                                        <t t-if="o.partner_id.vat">
+                                           GSTIN:<span t-field="o.partner_id.vat"/><br/>
+                                       </t>
+                                           <t t-if="o.partner_id.phone">
+                                           Ph:<span t-field="o.partner_id.phone"/>
                                        </t>
                                    </span>
                                      </b>
@@ -315,8 +357,11 @@
 
                                        <br/>
 
-                                       GSTIN:<t t-if="o.partner_shipping_id.vat">
-                                           <span t-field="o.partner_shipping_id.vat"/>
+                                        <t t-if="o.partner_id.vat">
+                                           GSTIN:<span t-field="o.partner_id.vat"/><br/>
+                                       </t>
+                                           <t t-if="o.partner_id.phone">
+                                           Ph:<span t-field="o.partner_id.phone"/>
                                        </t>
                                    </span>
                                     </b>
@@ -544,7 +589,8 @@
                                          <td class="en-font" style="line-height:1;padding:3px;text-align:right;vertical-align:middle;border:1px solid black;border-collapse:collapse;">
                                     <t t-if="l.discount">
                                         <t t-esc="'{:.2f}'.format(l.discount)"/>%
-                                         <t t-set="order_line_discount" t-value="order_line_discount+l.discount"/>
+                                       <t t-set="order_line_discount" t-value="order_line_discount+(l.price_unit * ((l.discount or 0.0) / 100.0) * l.quantity)"/>
+
                                     </t>
                                     <t t-if="l.discount_amount">
                                         <t t-esc="'{:.2f}'.format(l.discount_amount)"/>
@@ -725,117 +771,125 @@
 
 <!--                                        <td class="en-font" colspan="3" style="padding:5px;text-align:center;vertical-align:middle;"></td>-->
 
-                                         <td class="en-font" colspan="3" style="padding:5px;text-align:center;vertical-align:middle;">
+                                         <td class="en-font" colspan="3" style="padding:5px;text-align:left;vertical-align:middle;">
 
-                                              <div class="row">
-                                                 <div class="col-7 text-left" style="text-align:left;">
-                                                     <b>  Special Discount</b><br/>
-                                                     <b> Gross Amount</b><br/>
-                                                     <b>Total Discount</b><br/>
-                                                     <b>  Scheme Amount</b><br/>
-<!--                                                     <b> Taxable Amount</b><br/>-->
-<!--                                                      <b> GST Amount</b><br/>-->
-<!--                                                     <b> Total</b><br/>-->
-<!--                                                     <b> Round Off</b><br/>-->
+                                               <table border="0" style="font-size: 12px;" width="100%;" cellspacing="0" borderspacing="0">
+                                               <col style="width: 60%;"/>
+                                                <col style="width: 1%;"/>
+                                                <col style="width: 39%;"/>
 
-
-
-                                                 </div>
-                                                  <div class="col-1">
-                                                       <b> :</b><br/>
-                                                     <b>:</b><br/>
-                                                     <b>:</b><br/>
-                                                     <b>  :</b><br/>
-<!--                                                     <b> :</b><br/>-->
-<!--                                                      <b> :</b><br/>-->
-<!--                                                     <b> :</b><br/>-->
-<!--                                                     <b>:</b><br/>-->
-
-                                                 </div>
-                                                  <div class="col-4 text-left" style="text-align:left;padding:3px;">
-                                                      <b>
-                                                         <t t-if="o.special_discount">
+                                                    <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b>  Special Discount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b>
+                                                             <t t-if="o.special_discount">
                                                            <span t-esc="'{:.2f}'.format(order_line_discount)"/>
                                                           </t>
-                                                           <t t-if="not o.special_discount">
+                                                          <t t-if="not o.special_discount">
                                                            0.00
                                                           </t>
-                                                          <br/>
-                                                      <span t-esc="'{:.2f}'.format(gross_amount)"/><br/>
-                                                       <span t-esc="'{:.2f}'.format(order_line_discount)"/><br/>
-                                                      <span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/><br/>
-<!--                                                     <span t-esc="'{:.2f}'.format(taxable_amt)"/><br/>-->
-<!--                                                     <span t-esc="'{:.2f}'.format(o.amount_tax)"/><br/>-->
-<!--                                                       <span t-esc="'{:.2f}'.format(o.amount_total)"/><br/>-->
-<!--                                                      <t t-if="o.invoice_cash_rounding_id">-->
-<!--&lt;!&ndash;                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>&ndash;&gt;-->
-<!--                                                            <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>-->
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                     <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                         <b> Gross Amount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b>
+                                                            <span t-esc="'{:.2f}'.format(gross_amount)"/>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                        <b>Total Discount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                              <b>
+                                                           <span t-esc="'{:.2f}'.format(order_line_discount)"/>
+                                                              </b>
+                                                        </td>
+                                                    </tr>
+                                                     <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                        <b>  Scheme Amount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                              <b>
+                                                              <span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/>
+                                                              </b>
+                                                        </td>
+                                                    </tr>
+                                           </table>
 
-<!--                                                        </t>-->
-<!--                                                        <t t-if="not o.invoice_cash_rounding_id">-->
-<!--                                                            0.00-->
-<!--                                                        </t>-->
-
-                                                      </b>
-
-
-                                                 </div>
-
-                                             </div>
 
                                         </td>
 
                                          <td class="en-font" align="left" colspan="3" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;border-collapse:collapse;">
-                                             <div class="row">
-                                                 <div class="text-left col-7" style="text-align:left;">
-<!--                                                     <b>  Special Discount</b><br/>-->
-<!--                                                     <b> Gross Amount</b><br/>-->
-<!--                                                     <b>Total Discount</b><br/>-->
-<!--                                                     <b>  Scheme Amount</b><br/>-->
-                                                     <b> Taxable Amount</b><br/>
-                                                      <b> GST Amount</b><br/>
-                                                     <b> Total</b><br/>
-                                                     <b> Round Off</b><br/>
+                                              <table border="0" style="font-size: 12px;" width="100%;" cellspacing="0" borderspacing="0">
+                                                <col style="width: 60%;"/>
+                                                <col style="width: 1%;"/>
+                                                <col style="width: 39%;"/>
+                                                    <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b> Taxable Amount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b>
+                                                                 <span t-esc="'{:.2f}'.format(taxable_amt)"/>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                     <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                        <b> GST Amount</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                           <b>
+                                                               <span t-esc="'{:.2f}'.format(o.amount_tax)"/>
+                                                           </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                        <b> Total</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                           <b>
+                                                               <span t-esc="'{:.2f}'.format(o.amount_total)"/>
+                                                           </b>
 
+                                                        </td>
+                                                    </tr>
+                                                     <tr style="padding:2px;font-weight:bold;line-height: 1;border:0;">
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                        <b> Round Off</b>
+                                                        </td>
+                                                        <td class="en-font" style="padding:5px;border:0;">:</td>
+                                                        <td class="en-font" style="padding:5px;border:0;">
+                                                            <b>
+                                                                <t t-if="o.invoice_cash_rounding_id">
+                                                                    <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>
 
+                                                                </t>
+                                                                <t t-if="not o.invoice_cash_rounding_id">
+                                                                    0.00
+                                                                </t>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                           </table>
 
-                                                 </div>
-                                                  <div class="col-1">
-<!--                                                       <b> :</b><br/>-->
-<!--                                                     <b>:</b><br/>-->
-<!--                                                     <b>:</b><br/>-->
-<!--                                                     <b>  :</b><br/>-->
-                                                     <b> :</b><br/>
-                                                      <b> :</b><br/>
-                                                     <b> :</b><br/>
-                                                     <b>:</b><br/>
-
-                                                 </div>
-                                                  <div class="col-4 text-left" style="text-align:left;padding:3px;">
-                                                      <b>
-
-<!--                                                          <span t-esc="'{:.2f}'.format(o.special_discount)"/><br/>-->
-<!--                                                      <span t-esc="'{:.2f}'.format(gross_amount)"/><br/>-->
-<!--                                                       <span t-esc="'{:.2f}'.format(order_line_discount)"/><br/>-->
-<!--                                                      <span t-esc="'{:.2f}'.format(abs(o.total_discount-order_line_discount))"/><br/>-->
-                                                     <span t-esc="'{:.2f}'.format(taxable_amt)"/><br/>
-                                                     <span t-esc="'{:.2f}'.format(o.amount_tax)"/><br/>
-                                                       <span t-esc="'{:.2f}'.format(o.amount_total)"/><br/>
-                                                      <t t-if="o.invoice_cash_rounding_id">
-<!--                                                <t t-esc="'{0:,.2f}'.format(float(o.invoice_cash_rounding_id.rounding))"/>-->
-                                                            <t t-esc="'{0:,.2f}'.format(float(abs(round_off_amount)))"/>
-
-                                                        </t>
-                                                        <t t-if="not o.invoice_cash_rounding_id">
-                                                            0.00
-                                                        </t>
-
-                                                      </b>
-
-
-                                                 </div>
-
-                                             </div>
 <!--                                            <table height="10" class="table table-sm" style="font-size:13px;border: dotted grey;width:100%;line-height:1;" cellspacing="0" cellpadding="0">-->
 <!--                                                <col width="80%"></col>-->
 <!--                                                <col width="20%"></col>-->
@@ -956,21 +1010,8 @@
 
                                          </td>
 
-                                          <td class="en-font" align="left" colspan="3" style="font-size:16px;padding:5px;border-right: 1px solid black;border: 1px solid black;border-collapse:collapse;">
-                                             <div class="row">
-                                                 <div class="text-left col-7" style="text-align:left;">
-                                                     <b>Grand Total</b>
-                                                 </div>
-                                                  <div class="col-1">
-                                                     <b>:</b>
-                                                 </div>
-                                                  <div class="col-4" style="padding:1px;">
-                                                      <b>
-                                                      <span t-esc="'{:,.2f}'.format(o.amount_total)"/>
-                                                      </b>
-                                                 </div>
-
-                                             </div>
+                                          <td class="en-font" align="left" colspan="3" style="vertical-align:middle;font-size:16px;padding:1px;border-right: 1px solid black;border: 1px solid black;border-collapse:collapse;">
+                                             <b>Grand Total : <span t-esc="'{:,.2f}'.format(o.amount_total)"/></b>
                                          </td>
                                     </tr>
 

@@ -131,6 +131,18 @@ class Accountmoveline(models.Model):
             #         map(str, [picking.expiry_date.strftime('%d%m%Y') for picking in sml if picking.expiry_date]))
         return lot_dict
 
+    # def _total_discount(self):
+    #     for line in self:
+    #         total = 0
+    #         for l in self.move_id.invoice_line_ids:
+    #             if l.discount:
+    #                 total = total + (l.price_unit * ((l.discount or 0.0) / 100.0) * l.quantity)
+    #
+    #         return total
+
+
+
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
